@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="{{ url_for('static', filename='js/popper.min1.js')}}" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min1.js') }}" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+    <!-- favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/fevicon.jpg') }}" type="image/gif" />
+
+    {% if title %}
+        <title>Yonna Vault - {{ title }}</title>
+    {% else %}
+        <title>Yonna Vault</title>
+    {% endif %}
+</head>
+<body style="background-color: #f5c5f8;">
+{% if current_user.is_authenticated %}
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+            <div class="container">
+                <a style="color: white;" class="navbar-brand mr-4">YONNA VAULT</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+                    aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                    <div class="navbar-nav mr-auto">
+                            {% if current_user.is_admin %}
+                                <a class="nav-item nav-link" href="{{ url_for('_main.dashboard') }}">Dashboard</a>
+                                <a class="nav-item nav-link" href="{{ url_for('_accounts.accounts') }}">Accounts</a>
+                                <a class="nav-item nav-link" href="{{ url_for('_main.movements') }}">Movements</a>
+                                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">Admin</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ url_for('_zones.zones')}}">Zones</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_branches.branches')}}">Branches</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_deposits.credit_supervisor_account')}}">Credit Agent Account</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_deposits.cashier_deposits')}}">Cashier Deposits</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_deposits.supervisor_deposits')}}">Supervisor Deposits</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_main.agents')}}">Users</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_withdrawals.withdrawals')}}">Withdrawals</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_reports.daily_reports')}}">Daily Supervisors Reports</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_reports.daily_cashier_reports')}}">Daily Cashiers Reports</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_deposits.refund')}}">Refund Agent</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            {% if current_user.is_supervisor %}
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Supervisor
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ url_for('_users.my_branches')}}">My Branches</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_users.reports')}}">My Reports</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_withdrawals.withdraws')}}">My Withdrawals</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_reports.send_report')}}">Send Report</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_withdrawals.withdraw_cash')}}">Withdraw Cash</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_deposits.credit_cashier_account')}}">Credit Cashier Account</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            {% if current_user.is_cashier %}
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Cashier
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ url_for('_users.reports')}}">My Reports</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('_reports.send_report_to_supervisor')}}">Send Report</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        </div>
+                    <!-- Navbar Right Side -->
+                    {% if current_user.is_authenticated %}
+                        <div class="navbar-nav">
+                            <a class="nav-item nav-link" href="{{ url_for('_users.account')}}"><img src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}" width='25' height='25' class="rounded-circle"></a>
+                            <a class="nav-item nav-link" href="{{ url_for('_users.logout')}}"><img src="{{ url_for('static', filename='images/logout.png') }}" width='25' height='25' class="rounded-circle"></a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+{% endif %}
+<main role="main" class="container">
+    <div class="row">
+            <div class="container min-vh-100 justify-content-center align-items-center">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div style="text-align: center" class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            {% block content %}{% endblock %}
+        </div>
+        <div class="container">
+            <div class="ticker">
+              <div class="title"><h5>Yonna Foreign Exchange Bureau</h5></div>
+              <div class="news">
+                <marquee>
+                    <p>Demanding, but definitely doable. Stressful but motivational. A focused company, with broadly applicable business models; Yonna Foreign Exchange Bureau, is the quintessential. - Delivering more than just money.</p>
+                </marquee>
+              </div>
+            </div>
+          </div>
+    </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/jquery-3.2.1.slim.min.js')}}" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js')}}" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

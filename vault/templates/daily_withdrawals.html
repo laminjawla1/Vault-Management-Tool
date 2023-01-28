@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h3>Daily Withdrawals</h3><br>
+<div style="width: 1350px;">
+    <a href="{{ url_for('_withdrawals.withdraw_cash')}}" type="button" class="btn btn-outline-info">Withdraw Cash</a>
+    <table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Agent Code</th>
+        <th scope="col">Agent Name</th>
+        <th scope="col">Zone</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Status</th>
+        <th scope="col">Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for w in withdraw.items %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td class="table-size">{{ w.withdrawer.agent_code}}</td>
+                <td class="table-size">{{ w.withdrawer.first_name}} {{ w.withdrawer.last_name}}</td>
+                <td class="table-size">{{ w.withdrawer.zone}}</td>
+                <td class="table-size">{{ gmd(w.amount)}}</td>
+                {% if w.approved %}
+                    <td style="color: green">Approved</td>
+                {% else %}
+                    <td style="color: red">Pending</td>
+                {% endif %}
+                <td class="table-size">{{ w.date.strftime("%Y-%m-%d") }}</td>
+                {% if not w.approved %}
+                    <td>
+                        <form action="{{ url_for('_withdrawals.approve_withdraw') }}" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="{{ w.id }}" />
+                            <input class="btn btn-sm btn-success mt-2 mb-2" type="submit" value="Approve" />
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('_withdrawals.disapprove_withdraw') }}" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="{{ w.id }}" />
+                            <input class="btn btn-sm btn-danger mt-2 mb-2" type="submit" value="Reject" />
+                        </form>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    {% for page_num in withdraw.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+      {% if withdraw.page == page_num %}
+        <a class="btn btn-info mb4" href="{{ url_for('_withdrawals.withdrawals', page=page_num) }}">{{ page_num }}</a>
+      {% else %}
+        <a class="btn btn-outline-info mb4" href="{{ url_for('_withdrawals.withdrawals', page=page_num) }}">{{ page_num }}</a>
+      {% endif %}
+    {% else %}
+      ...
+    {% endif %}
+  {% endfor %}
+</div>
+{% endblock content %}

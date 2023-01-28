@@ -1,0 +1,146 @@
+{% extends "layout.html" %}
+{% block content %}
+    <!-- Main -->
+    <main class="main-container">
+      <div class="dropdown">
+        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Generate Daily Report
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="{{ url_for('_reports.generate_cashier_report') }}">Cashier Reports</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('_reports.generate_supervisor_report') }}">Supervisor Reports</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('_reports.generate_cashier_deposit_report') }}">Cashier Deposits</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('_reports.generate_supervisor_deposit_report') }}">Supervisor Deposits</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('_reports.generate_withdrawal_report') }}">Withdrawals</a></li>
+        </ul>
+      </div>
+      <div class="main-cards">
+        <div class="card">
+            <div class="card-inner">
+              <h3>Main Vault Balance</h3>
+              <span class="material-icons-outlined">attach_money</span>
+            </div>
+            <h1>{{gmd(account.balance)}}</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+              <h3>Opening Cash</h3>
+              <span class="material-icons-outlined">attach_money</span>
+            </div>
+            <h1>{{gmd(opening_cash)}}</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+              <h3>Additional Cash</h3>
+              <span class="material-icons-outlined">attach_money</span>
+            </div>
+            <h1>{{gmd(additional_cash)}}</h1>
+        </div>
+      </div>
+
+      <div class="main-cards1">
+        <div class="card">
+            <div class="card-inner">
+              <h3>Staffs</h3>
+              <span class="material-icons-outlined">groups</span>
+            </div>
+            <h1>{{users}}</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+              <h3>Zones</h3>
+              <span class="material-icons-outlined">groups</span>
+            </div>
+            <h1>{{zone_cnt}}</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+              <h3>Branches</h3>
+              <span class="material-icons-outlined">groups</span>
+            </div>
+            <h1>{{branches}}</h1>
+        </div>
+      </div>
+
+      <div class="main-cards2">
+        <div class="card">
+          <div class="card-inner">
+            <h3>Withdrawals</h3>
+            <span class="material-icons-outlined">attach_money</span>
+          </div>
+          <h1>Total: {{withdrawals}}</h1>
+          <h1>Amount: {{gmd(amount)}}</h1>
+      </div>
+
+      <div class="card">
+        <div class="card-inner">
+          <h3>Deposits</h3>
+          <span class="material-icons-outlined">attach_money</span>
+        </div>
+        <h1>Total: {{deposits}}</h1>
+        <h1>Amount: {{gmd(deposit_amount)}}</h1>
+    </div>
+    <div style="width: 1365px;">
+      <main class="main-container">
+        <table class="table table-striped table-bordered table-dark table-hover">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Zone Name</th>
+            <th scope="col">Zone Location</th>
+            <th scope="col">Zone Manager</th>
+            <th scope="col">Opening Cash</th>
+            <th scope="col">Additional Cash</th>
+            <th scope="col">Closing Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for zone in zones.items %}
+          <tr>
+            <td>{{ zone.name }}</td>
+            <td>{{ zone.location }}</td>
+            {% if zone.manager %}
+              <td>{{ zone.manager.first_name}} {{ zone.manager.last_name }}</td>
+              {% if zone.manager.cash %}
+                <td style="color: green">{{ gmd(zone.manager.opening_cash) }}</td>
+              {% else %}
+                <td style="color: red">{{ gmd(zone.manager.opening_cash) }}</td>
+              {% endif %}
+              {% if zone.manager.add_cash %}
+                <td style="color: green">{{ gmd(zone.manager.additional_cash) }}</td>
+              {% else %}
+                <td style="color: red">{{ gmd(zone.manager.additional_cash) }}</td>
+              {% endif %}
+            {% else %}
+              <td style="color: red">N/A</td>
+              <td style="color: red">N/A</td>
+              <td style="color: red">N/A</td>
+              {% endif %}
+            {% if zone.manager %}
+              <td style="color: red">{{ gmd(zone.manager.closing_balance) }}</td>
+            {% else %}
+              <td style="color: red">N/A</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+      </tbody>
+      </table>
+      {% for page_num in zones.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+          {% if zones.page == page_num %}
+            <a class="btn btn-info mb4" href="{{ url_for('_main.dashboard', page=page_num) }}">{{ page_num }}</a>
+          {% else %}
+            <a class="btn btn-outline-info mb4" href="{{ url_for('_main.dashboard', page=page_num) }}">{{ page_num }}</a>
+          {% endif %}
+        {% else %}
+          ...
+        {% endif %}
+      {% endfor %}
+    </main>
+  </div>
+  </main>
+
+{% endblock content %}

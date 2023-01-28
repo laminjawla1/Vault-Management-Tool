@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container menu-size mb-3 content-section">
+        <form action="{{ url_for("_deposits.edit_cashier_deposit") }}" method="post" enctype="multipart/form-data">
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">{{ credit }}</legend>
+                <div class="form-group">
+                    <select autofocus name="agent" class="form-control form-control-lg" aria-label="Default select example">
+                        <option selected disabled>Cashiers</option>
+                        {% for agent in agents %}
+                            <option value="{{agent.id}}">{{agent.agent_code}} - {{agent.first_name}} {{ agent.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input name="amount" autocomplete="off" type="text" class="form-control form-control-lg" placeholder="Amount (GMD)">
+                </div>
+                <div class="form-group">
+                    <select autofocus name="deposit_type" class="form-control form-control-lg" aria-label="Default select example">
+                        <option selected disabled>Deposit Type</option>
+                        {% for deposit_type in deposit_types %}
+                            <option value="{{deposit_type}}">{{deposit_type}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
