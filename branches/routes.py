@@ -39,16 +39,15 @@ def create_branch():
     if form.validate_on_submit():
         name = form.name.data
         teller = form.teller.data
-        location = form.location.data
              
         if teller:
             user = User.query.filter_by(agent_code=teller[:7]).first()
             if not user:
                 flash("Unrecognize Teller")
                 return render_template("create_branch.html", form=form, legend="Create Branch", title="Create Branch")
-            branch = Branch(name=name, location=location, teller=user)
+            branch = Branch(name=name, teller=user)
         else:
-            branch = Branch(name=name, location=location)
+            branch = Branch(name=name)
         movement = Movement(agent_code=current_user.agent_code, name=f'{current_user.first_name} {current_user.last_name}',
                             action=f"Created the branch - '{form.name.data}'")
         db.session.add(movement)
@@ -79,7 +78,6 @@ def edit_branch(branch_id):
 
     if form.validate_on_submit():
         branch.name = form.name.data
-        branch.location = form.location.data
         if form.teller.data:
             user = User.query.filter_by(agent_code=form.teller.data[:7]).first()
             if not user:
@@ -95,5 +93,4 @@ def edit_branch(branch_id):
 
     elif request.method == 'GET':
         form.name.data = branch.name
-        form.location.data = branch.location
     return render_template("create_branch.html", legend="Edit Branch", title="Edit Branch", form=form)

@@ -5,8 +5,6 @@ from wtforms.validators import DataRequired, Length
 class ZoneCreationForm(FlaskForm):
     name = StringField('Zone Name', 
                             validators=[DataRequired(), Length(min=2, max=30)])
-    location = StringField('Location', 
-                            validators=[DataRequired(), Length(min=2, max=30)])
     supervisor = SelectField('Supervisor', choices=[])
 
 
@@ -15,8 +13,6 @@ class ZoneCreationForm(FlaskForm):
 
 class ZoneUpdateForm(FlaskForm):
     name = StringField('Zone Name', 
-                            validators=[DataRequired(), Length(min=2, max=30)])
-    location = StringField('Location', 
                             validators=[DataRequired(), Length(min=2, max=30)])
     supervisor = SelectField('Supervisor', choices=[])
 

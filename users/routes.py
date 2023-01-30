@@ -21,10 +21,6 @@ def register():
     form = RegistrationForm()
     zones = Zone.query.all()
     branches = Branch.query.all()
-    form.zone.choices = sorted([zone.name for zone in zones])
-    form.branch.choices = sorted([branch.name for branch in branches])
-    form.zone.choices.insert(0, "-")
-    form.branch.choices.insert(0, "-")
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         while True:
@@ -43,7 +39,7 @@ def register():
         db.session.commit()
         flash(f"Account created for {form.username.data}!", 'success')
         return redirect(url_for("_main.agents"))
-    return render_template("register.html", title="Register", form=form)
+    return render_template("register.html", title="Register", form=form, zones=zones, branches=branches)
 
 
 @_users.route("/login", methods=["GET", "POST"])

@@ -7,7 +7,6 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Branch Name</th>
-      <th scope="col">Branch Location</th>
       <th scope="col">Branch Manager</th>
       <th scope="col">Opening Cash</th>
       <th scope="col">Additional Cash</th>
@@ -18,7 +17,6 @@
     <tr>
       <th scope="row">{{ loop.index }}</th>
       <td><a href="{{ url_for('_branches.edit_branch', branch_id=branch.id) }}">{{ branch.name }}</a></td>
-      <td>{{ branch.location }}</td>
       {% if branch.teller %}
         <td>{{ branch.teller.first_name}} {{ branch.teller.last_name }}</td>
         {% if branch.teller.cash %}

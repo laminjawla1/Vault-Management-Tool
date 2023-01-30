@@ -5,7 +5,6 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Zone Name</th>
-      <th scope="col">Zone Location</th>
       <th scope="col">Zone Manager</th>
       <th scope="col">Opening Cash</th>
       <th scope="col">Additional Cash</th>
@@ -17,7 +16,6 @@
     <tr>
       <th scope="row">{{ loop.index }}</th>
       <td><a href="{{ url_for('_zones.edit_zone', zone_id=zone.id) }}">{{ zone.name }}</a></td>
-      <td>{{ zone.location }}</td>
       {% if zone.manager %}
         <td>{{ zone.manager.first_name}} {{ zone.manager.last_name }}</td>
         {% if zone.manager.cash %}

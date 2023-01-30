@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="content-section">
-    <form method="POST" action="">
+    <form autocomplete="off" method="POST" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Add User</legend>
@@ -70,7 +70,12 @@
                     {% endfor %}
                 </div>
                 {% else %}
-                {{ form.zone(class="form-control form-control-lg") }}
+                {{ form.zone(class="form-control form-control-lg", list="zones") }}
+                <datalist id="zones">
+                    {% for zone in zones %}
+                    <option value={{ zone.name }}>
+                    {% endfor %}
+                </datalist>
                 {% endif %}
             </div>
             <div class="form-group">
@@ -83,7 +88,12 @@
                     {% endfor %}
                 </div>
                 {% else %}
-                {{ form.branch(class="form-control form-control-lg") }}
+                {{ form.branch(class="form-control form-control-lg", list="branches") }}
+                <datalist id="branches">
+                    {% for branch in branches %}
+                    <option value={{ branch.name }}>
+                    {% endfor %}
+                </datalist>
                 {% endif %}
             </div>
             <div class="form-group">

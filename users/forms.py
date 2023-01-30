@@ -13,8 +13,8 @@ class RegistrationForm(FlaskForm):
                             validators=[DataRequired(), Length(min=2, max=30)])
     username = StringField('Username', 
                             validators=[DataRequired(), Length(min=2, max=20)])
-    zone = SelectField('Zone')
-    branch = SelectField('Branch')
+    zone = StringField('Zone')
+    branch = StringField('Branch')
     is_super_admin = BooleanField('Super Admin')
     is_admin = BooleanField('Admin')
     is_supervisor = BooleanField('Supervisor')

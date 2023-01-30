@@ -30,7 +30,6 @@ def edit_zone(zone_id):
 
     if form.validate_on_submit():
         zone.name = form.name.data
-        zone.location = form.location.data
         if form.supervisor.data:
             user = User.query.filter_by(agent_code=form.supervisor.data[:7]).first()
             if not user:
@@ -46,7 +45,6 @@ def edit_zone(zone_id):
 
     elif request.method == 'GET':
         form.name.data = zone.name
-        form.location.data = zone.location
     return render_template("create_zone.html", legend="Edit Zone", title="Edit Zone", form=form)
 
 
@@ -72,16 +70,15 @@ def create_zone():
     if form.validate_on_submit():
         name = form.name.data
         supervisor = form.supervisor.data
-        location = form.location.data
              
         if supervisor:
             user = User.query.filter_by(agent_code=supervisor[:7]).first()
             if not user:
                 flash("Unrecognize Supervisor")
                 return render_template("create_zone.html", form=form, legend="Create Zone", title="Create Zone")
-            zone = Zone(name=name, location=location, manager=user)
+            zone = Zone(name=name, manager=user)
         else:
-            zone = Zone(name=name, location=location)
+            zone = Zone(name=name)
         movement = Movement(agent_code=current_user.agent_code, name=f'{current_user.first_name} {current_user.last_name}',
                             action=f"Created the zone - '{form.name.data}'")
         db.session.add(movement)
