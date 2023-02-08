@@ -73,7 +73,7 @@
                 {{ form.zone(class="form-control form-control-lg", list="zones") }}
                 <datalist id="zones">
                     {% for zone in zones %}
-                    <option value={{ zone.name }}>
+                    <option value="{{ zone.name }}">
                     {% endfor %}
                 </datalist>
                 {% endif %}
@@ -91,7 +91,7 @@
                 {{ form.branch(class="form-control form-control-lg", list="branches") }}
                 <datalist id="branches">
                     {% for branch in branches %}
-                    <option value={{ branch.name }}>
+                    <option value="{{ branch.name }}">
                     {% endfor %}
                 </datalist>
                 {% endif %}

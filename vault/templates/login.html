@@ -1,91 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="{{ url_for('static', filename='js/popper.min1.js')}}" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min1.js') }}" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
-    <title>Yonna Vault | Login</title>
-</head>
-<body style="background-color: #fe8af3;">
-    <main role="main" class="container">
-        <div class="row">
-            <div class="container min-vh-100 justify-content-center align-items-center">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div style="text-align: center" class="alert alert-{{ category }}">
-                                    {{ message }}
-                            </div>
-                        {% endfor %}
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="content-section">
+        <h3 style="color: rgb(132, 0, 176); text-align: center;">Yonna Forex Bureau - Vault 🏦</h3>
+        <form id="login-form" autocomplete="off" class="login-form" method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Login 🔒</legend>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
                     {% endif %}
-                {% endwith %}
-            <h3 style="color: rgb(132, 0, 176); text-align: center;">Yonna Forex Bureau - Vault 🏦</h3>
-            <form autocomplete="off" class="login-form" method="POST" action="">
-                {{ form.hidden_tag() }}
-                <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Login 🔒</legend>
-                    <div class="form-group">
-                        {{ form.username.label(class="form-control-label") }}
-                        {% if form.username.errors %}
-                            {{ form.username(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.username.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.username(class="form-control form-control-lg") }}
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.password.label(class="form-control-label") }}
-                        {% if form.password.errors %}
-                            {{ form.password(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.password.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.password(class="form-control form-control-lg", id="password") }}
-                            <input type="checkbox" onclick="password_toggle()">Show Password
-                        {% endif %}
-                    </div>
-                    <div class="form-check">
-                        {{ form.remember(class="form-check-input") }}
-                        {{ form.remember.label(class="form-check-label") }}
-                    </div>
-                </fieldset>
-                    <div class="form-group">
-                        {{ form.submit(class="btn btn-outline-info") }}
-                    </div>
-                    <div class="border-top pt-3">
-                        <small style="color: aliceblue;">
-                            Need An Account? <a class="ml-2" href="{{ url_for('_users.register') }}">Sign Up Now</a>
-                        </small>
-                    </div>
-            </form>
-        </div>
-        </div> 
-        </div>
-    </main>
-    <script src="{{ url_for('static', filename='js/jquery-3.2.1.slim.min.js')}}" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/popper.min.js')}}" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script>
-        function password_toggle() {
-            var password = document.getElementById("password");
-            if (password.type === "password") {
-                password.type = "text";
-            } else {
-                password.type = "password";
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label") }}
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg", id="password") }}
+                        <input type="checkbox" onclick="password_toggle()">Show Password
+                    {% endif %}
+                </div>
+                <div class="form-check">
+                    {{ form.remember(class="form-check-input") }}
+                    {{ form.remember.label(class="form-check-label") }}
+                </div>
+            </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+                <div class="border-top pt-3">
+                    <small style="color: aliceblue;">
+                        Need An Account? <a class="ml-2" href="{{ url_for('_users.register') }}">Sign Up Now</a>
+                    </small>
+                </div>
+        </form>
+        <script>
+            function password_toggle() {
+                var password = document.getElementById("password");
+                if (password.type === "password") {
+                    password.type = "text";
+                } else {
+                    password.type = "password";
+                }
             }
-        }
-    </script>
-</body>
-</html>
+        </script>
+    </div>
+{% endblock %}

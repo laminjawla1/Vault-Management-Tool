@@ -69,7 +69,7 @@ def login():
                 else:
                     return redirect(url_for("_main.dashboard"))
         else:
-            flash("Login Unsuccessful. Please check username or password. If you've forgotten your password, click on the forgot password link to reset your password", 'danger')
+            flash("Login Unsuccessful. Please check username or password.", 'danger')
     return render_template("login.html", title="Login", form=form)
 
 

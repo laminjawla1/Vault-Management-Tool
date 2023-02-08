@@ -55,7 +55,7 @@ def home():
 def movements():
     page = request.args.get('page', 1, type=int)
     movements = Movement.query.order_by(Movement.date.desc()).paginate(per_page=10, page=page)
-    return render_template("movements.html", movements=movements)
+    # return render_template("movements.html", movements=movements)
 
 
 @_main.route("/admin/agents")
