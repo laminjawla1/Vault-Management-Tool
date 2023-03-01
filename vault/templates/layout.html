@@ -96,28 +96,32 @@
 {% endif %}
 <main role="main" class="container">
     <div class="row">
-            <div class="container min-vh-100 justify-content-center align-items-center">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div style="text-align: center" class="alert alert-{{ category }}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-            {% block content %}{% endblock %}
-        </div>
-        <div class="container">
-            <div class="ticker">
-              <div class="title"><h5>Yonna Foreign Exchange Bureau</h5></div>
-              <div class="news">
-                <marquee>
-                    <p>Demanding, but definitely doable. Stressful but motivational. A focused company, with broadly applicable business models; Yonna Foreign Exchange Bureau, is the quintessential. - Delivering more than just money.</p>
-                </marquee>
-              </div>
+        <div class="col-md-12">
+                <div class="container min-vh-100 justify-content-center align-items-center">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div style="text-align: center" class="alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                {% block content %}{% endblock %}
             </div>
-          </div>
+            {% if current_user.is_authenticated %}
+                <div class="container">
+                    <div class="ticker">
+                    <div class="title"><h5>Yonna Foreign Exchange Bureau</h5></div>
+                    <div class="news">
+                        <marquee>
+                            <p>Demanding, but definitely doable. Stressful but motivational. A focused company, with broadly applicable business models; Yonna Foreign Exchange Bureau, is the quintessential. - Delivering more than just money.</p>
+                        </marquee>
+                    </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
     </div>
     </main>
     <script src="{{ url_for('static', filename='js/jquery-3.2.1.slim.min.js')}}" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

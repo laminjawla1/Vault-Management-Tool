@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
     <h3>Daily Withdrawals</h3><br>
-<div style="width: 1350px;">
     <a href="{{ url_for('_withdrawals.withdraw_cash')}}" type="button" class="btn btn-outline-info">Withdraw Cash</a>
     <table class="table table-striped table-bordered">
     <thead class="thead-dark">
@@ -58,5 +57,4 @@
       ...
     {% endif %}
   {% endfor %}
-</div>
 {% endblock content %}

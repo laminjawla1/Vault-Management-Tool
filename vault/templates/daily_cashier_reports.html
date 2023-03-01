@@ -27,17 +27,17 @@
     <tbody>
         {% for report in reports.items %}
             <tr>
-                <td class="table-size">{{ report.reporter.zone}}</a></td>
-                <td class="table-size"><a href="{{ url_for('_reports.edit_report', report_id=report.id) }}">{{ report.reporter.branch}}</a></td>
+                <td>{{ report.reporter.zone}}</a></td>
+                <td><a href="{{ url_for('_reports.edit_report', report_id=report.id) }}">{{ report.reporter.branch}}</a></td>
                 {% if report.reporter.is_supervisor %}
-                  <td class="table-size"><a href="{{ url_for('_users.supervisor_reports', username=report.reporter.username) }}">{{ report.reporter.first_name}} {{ report.reporter.last_name}}</a></td>
+                  <td><a href="{{ url_for('_users.supervisor_reports', username=report.reporter.username) }}">{{ report.reporter.first_name}} {{ report.reporter.last_name}}</a></td>
                 {% else %}
-                  <td class="table-size"><a href="{{ url_for('_users.cashier_reports', username=report.reporter.username) }}">{{ report.reporter.first_name}} {{ report.reporter.last_name}}</a></td>
+                  <td><a href="{{ url_for('_users.cashier_reports', username=report.reporter.username) }}">{{ report.reporter.first_name}} {{ report.reporter.last_name}}</a></td>
                 {% endif %}
-                <td class="table-size">{{ gmd(report.opening_cash)}}</td>
-                <td class="table-size">{{ gmd(report.additional_cash) }}</td>
-                <td class="table-size">{{ gmd(report.opening_cash + report.additional_cash) }}</td>
-                <td class="table-size">{{ gmd(report.closing_balance) }}</td>
+                <td>{{ gmd(report.opening_cash)}}</td>
+                <td>{{ gmd(report.additional_cash) }}</td>
+                <td>{{ gmd(report.opening_cash + report.additional_cash) }}</td>
+                <td>{{ gmd(report.closing_balance) }}</td>
                 {% if report.approved %}
                     <td style="color: green">Approved</td>
                 {% else %}
@@ -52,7 +52,7 @@
                 <td>{{ report.swiss_franck }}</td>
                 <td>{{ report.denish_krona }}</td>
                 <td>{{ report.cad_dollar }}</td>
-                <td class="table-size">{{ report.date.strftime("%Y-%m-%d") }}</td>
+                <td>{{ report.date.strftime("%Y-%m-%d") }}</td>
                 {% if not report.approved %}
                     <td>
                         <form action="{{ url_for("_reports.approve_cashier_report") }}" method="post" enctype="multipart/form-data">

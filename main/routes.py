@@ -1,4 +1,4 @@
-from vault.models import User, Zone, Branch, Deposit, Account, Movement
+from vault.models import User, Zone, Branch, Deposit, Account, Movement, MainVault, ZoneVault
 from flask import render_template, url_for, redirect, request, abort, Blueprint, current_app, session
 from vault import db
 from datetime import timedelta
@@ -37,9 +37,10 @@ def dashboard():
     branches = len(Branch.query.all())
     withdrawals, amount = get_todays_withdrawals()
     deposits, deposit_amount = get_todays_deposits()
+    reports = len(MainVault.query.all()) + len(ZoneVault.query.all())
     return render_template("dashboard.html", gmd=gmd, account=account, opening_cash=opening_cash, additional_cash=additional_cash,
                              users=users, zone_cnt=zone_cnt, branches=branches, withdrawals=withdrawals, amount=amount, deposits=deposits,
-                             deposit_amount=deposit_amount, zones=zones)
+                             deposit_amount=deposit_amount, zones=zones, reports=reports)
 
 @_main.route("/")
 @login_required
@@ -55,7 +56,7 @@ def home():
 def movements():
     page = request.args.get('page', 1, type=int)
     movements = Movement.query.order_by(Movement.date.desc()).paginate(per_page=10, page=page)
-    # return render_template("movements.html", movements=movements)
+    return render_template("movements.html", movements=movements)
 
 
 @_main.route("/admin/agents")
